@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSFiddle 4ytou389</title>
+
+  <style>
+    * {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f4f6f9;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.navbar {
+  background-color: #4a54e1;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 10px 15px;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.container {
+  padding: 2rem;
+  flex: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.hero {
+  background-color: #6c5ce7;
+  color: white;
+  padding: 3rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hero button, .quick-links button, .contact-form button {
+  background-color: #a29bfe;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.hero button:hover, .quick-links button:hover, .contact-form button:hover {
+  background-color: #81ecec;
+  color: #333;
+}
+
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 1.5rem;
+}
+
+/* Gallery & Grid Components */
+.image-gallery {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.img-placeholder {
+  flex: 1;
+  min-width: 120px;
+  height: 100px;
+  background: #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: #475569;
+  font-weight: bold;
+}
+
+.quick-links {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.dest-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  text-align: center;
+}
+
+.dest-card:hover {
+  border-color: #4a54e1;
+}
+
+.dest-subpage {
+  display: none;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  border-top: 4px solid #4a54e1;
+}
+
+.dest-subpage.active {
+  display: block;
+}
+
+.gallery {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* Image Container Box */
+.img-box {
+  flex: 1;
+  min-width: 200px;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden; /* Prevents images from overflowing the rounded corners */
+  background-color: #e2e8f0;
+}
+
+/* Image Styling */
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Fits and crops image cleanly without distortion */
+  display: block;
+}
+
+.map-placeholder {
+  background: #cbd5e1;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #475569;
+}
+
+.map-large {
+  height: 250px;
+}
+
+.help-container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.help-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.card-link {
+  background: #93c5fd;
+  color: #1e3a8a;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  flex: 1;
+  text-align: center;
+}
+
+.card-link:hover {
+  background: #60a5fa;
+}
+
+/* Spot Cards */
+.spot-card {
+  border: 1px solid #e2e8f0;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  background: #f8fafc;
+}
+
+ol {
+  margin: 0.5rem 0 1rem 1.5rem;
+}
+
+.contact-form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-form input, .contact-form textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Help & FAQ */
+.help-container, .contact-container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.form-card, .faq-card, .contact-details {
+  flex: 1;
+  min-width: 280px;
+}
+
+form label {
+  display: block;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+form input, form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+details {
+  background: #f1f5f9;
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+summary {
+  font-weight: bold;
+}
+.btn {
+  display: inline-block;
+  background: #3b82f6;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  margin-top: 1rem;
+  text-decoration: none;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #1d4ed8;
+}
+.faq details {
+  background: white;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+/* Reusable Map Wrapper */
+.map-container {
+  width: 100%;
+  height: 300px;
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure iframe fills full width/height */
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+footer {
+  background: #2d3748;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto;
+}
+
+.image-gallery {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.image-card {
+  width: 30%;
+  min-width: 220px;
+  text-align: center;
+}
+
+.image-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.image-card p {
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+
+  </style>
+
+  
+</head>
+<body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beautiful Spots in the Philippines</title>
+</head>
+<body>
+<!-- NAVIGATION BAR --> 
+<header>
+<nav class="navbar">
+  <div class="logo">🇵🇭 Beautiful Spots</div>
+  <ul class="nav-links">
+    <li><a href="#homepage" onclick="showSection('homepage')">HOME</a></li>
+    <li class="dropdown">
+      <a href="#explore" onclick="showSection('explore')">EXPLORE & VISIT ▾</a>
+      <div class="dropdown-content">
+        <a href="#batangas" onclick="showDestination('batangas')">Batangas</a>
+        <a href="#bohol" onclick="showDestination('bohol')">Bohol</a>
+        <a href="#boracay" onclick="showDestination('boracay')">Boracay</a>
+        <a href="#palawan" onclick="showDestination('palawan')">Palawan</a>
+        <a href="#siargao" onclick="showDestination('siargao')">Siargao</a>
+      </div>
+    </li>
+    <li><a href="#get-help" onclick="showSection('get-help')">GET HELP</a></li>
+    <li><a href="#contact" onclick="showSection('contact')">CONTACT US</a></li>
+  </ul>
+</nav>
+</header>
+
+<!-- SECTION 1: HOMEPAGE -->
+<main class="container">
+  <section id="homepage" class="page active">
+    <div class="hero">
+      <h1>Beautiful Spots in the Philippines</h1>
+      <p>Discover breathtaking beaches, historical sites, and vibrant culture across the islands.</p>
+      <button onclick="showSection('explore')">Learn More</button>
+    </div>
+
+    <div class="overview-cards">
+      <div class="card">
+        <h3>Explore thousands of islands packed with rich marine life, volcanoes, and world-class destinations.</h3>
+        <br>
+        <p>The Philippines is an archipelagic nation composed of over 7,600 islands, renowned worldwide for its tropical landscapes, rich biodiversity, and legendary warm hospitality. From world-class surf breaks and emerald lagoon waters to towering mountain shrines and unique geological wonders, the country offers an unparalleled mix of natural beauty, cultural heritage, and adventure.</p>
+      </div>
+    </div>
+
+<h2>Featured Images</h2>
+
+<div class="image-gallery">
+  <div class="image-card">
+    <img src="https://static.tripzilla.ph/media/227979/conversions/babb32be-d3ab-4eb1-870d-9bb6a343f13b-w768.webp" alt="Batangas">
+    <p>Batangas</p>
+  </div>
+
+  <div class="image-card">
+    <img src="https://images.lifestyleasia.com/wp-content/uploads/sites/6/2022/12/22224603/boracay-travel-guide-philippines-beach-1350x900.jpg" alt="Boracay">
+    <p>Boracay</p>
+  </div>
+
+  <div class="image-card">
+    <img src="https://ocarramedia.com/wp-content/uploads/2026/03/Siargao-Island-Page-Hero-cloud9-surfer-boardwalk-perspective.webp" alt="Siargao">
+    <p>Siargao</p>
+  </div>
+</div>
+
+    <div class="quick-links">
+      <h3>Quick Links</h3>
+      <div class="btn-group">
+        <button onclick="showDestination('batangas')">Batangas</button>
+        <button onclick="showDestination('bohol')">Bohol</button>
+        <button onclick="showDestination('boracay')">Boracay</button>
+        <button onclick="showDestination('palawan')">Palawan</button>
+        <button onclick="showDestination('siargao')">Siargao</button>
+      </div>
+    </div>
+  </section>
+
+ <!-- SECTION 2: EXPLORE AND VISIT -->
+  <section id="explore" class="page">
+    
+    <h2>Overview about the Philippines: The Pearl of the Orient Seas</h2><br>
+    <p>The Philippines, officially the Republic of the Philippines, is an archipelagic country in Southeast Asia. Located in the western Pacific Ocean, it consists of about 7,641 islands, with a total area of about 300,000 square kilometers. The islands are broadly categorized in three main geographical divisions. From north to south, the divisions are: Luzon, Visayas, and Mindanao. With a population of over 114 million, it is the world's thirteenth-most-populous country.
+    <br>
+    <br>
+    The Philippines is bounded by the South China Sea to the west, the Philippine Sea to the east, and the Celebes Sea to the south. It shares maritime borders with Taiwan to the north, Japan to the northeast, Palau to southeast, Indonesia to the south, Malaysia to the southwest, Vietnam to the west, and China to the northwest. It has diverse ethnicities and a rich culture. Manila is the country's capital, and its most populated city is Quezon City. Both are within Metro Manila.</p>
+    <br>
+    <h3>Key Facts</h3>
+        <li>Islands: Approximately 7,641 islands (around 2,000 inhabited) divided into three main groups: Luzon, Visayas, and Mindanao.</li>
+        <li>Capital: Manila (located on the island of Luzon).</li>
+        <li>Population: Over 114 million people.</li>
+        <li>Languages: Filipino and English are the official languages.</li>
+        <li>Religion: Predominantly Roman Catholic (approx. 80–90%), with a significant Muslim minority (mostly in Mindanao).</li>
+        <li>Currency: Philippine Peso (PHP).</li>
+    <br>
+      <h3>History & Culture</h3>
+        <li><b>Colonization:</b> Experienced over 300 years of Spanish rule (named after King Philip II of Spain) and nearly 50 years under U.S. administration, followed by Japanese occupation during World War II.</li>
+        <li><b>Independence:</b> Formally recognized on July 4, 1946.</li>
+        <li><b>Culture:</b> A blend of indigenous Asian roots and Western influences, known for warm hospitality (bayanihan), vibrant festivals, and unique cuisine (such as adobo and sweet banana ketchup).</li>
+    <br>
+
+    <h3>Geography & Climate</h3>
+        <li><b>Geography:</b> Sits on the Pacific Ring of Fire, featuring active volcanoes like Mount Mayon and Taal, and Mount Apo as the highest peak (2,954 meters).</li>
+        <li><b>Climate:</b> Tropical climate characterized by a dry season (generally January to May) and a wet/rainy season (June to December), frequently visited by typhoons.</li>
+    <br>
+
+    <h2>Explore and Visit</h2>
+    <p>Select a destination from the options below or the top menu to view details, photos, and directions.</p>
+    
+    <!-- Batangas -->
+    <div class="destinations-grid">
+      <div class="dest-card" onclick="showDestination('batangas')">
+        <h3>Batangas</h3>
+        <p>Famous for diving spots and heritage towns.</p>
+      </div>
+
+      <!-- Bohol -->
+      <div class="dest-card" onclick="showDestination('bohol')">
+        <h3>Bohol</h3>
+        <p>Home of the Chocolate Hills and Tarsiers.</p>
+      </div>
+
+      <!-- Boracay -->
+      <div class="dest-card" onclick="showDestination('boracay')">
+        <h3>Boracay</h3>
+        <p>World-renowned white sand beaches.</p>
+      </div>
+
+      <!-- Palawan -->
+      <div class="dest-card" onclick="showDestination('palawan')">
+        <h3>Palawan</h3>
+        <p>Pristine lagoons and underground river.</p>
+      </div>
+
+      <!-- Siargao -->
+      <div class="dest-card" onclick="showDestination('siargao')">
+        <h3>Siargao</h3>
+        <p>The surfing capital of the Philippines.</p>
+      </div>
+    </div>
+
+    <!-- SUB-PAGES -->
+    <div id="batangas" class="dest-subpage">
+      <h3>Batangas</h3>
+      <p>A quick escape from Manila with popular diving reefs and volcano views.</p><br>
+      <h4>Montemaria International Pilgrimage & Glass Walkway</h4>
+      <p>A spiritual and scenic landmark situated atop the hills of Batangas City. It features the world's tallest statue of the Virgin Mary (Mother of All Asia) and a modern glass walkway platform that offers sweeping, elevated views of the ocean.</p>
+      <br>
+      <p><b>History & Significance:</b> Montemaria Shrine was developed as a center for faith tourism overlooking the Verde Island Passage. It is home to the Mother of All Asia - Tower of Peace, the tallest statue of the Virgin Mary in the world.</p>
+      <br>
+      <p><b>Why it’s a top spot:</b> Aside from its religious significance, it features modern attractions like scenic glass walkway platforms that offer panoramic, high-altitude views of the ocean and coastal landscapes.</P>
+      <br>
+      <br>
+
+      <h4>Featured Images</h4>
+      <p>Batangas is famous for diving spots and scenic coastal views standard for quick weekend getaways.</p>
+      <div class="gallery">
+      <div class="img-box">
+        <img src="https://static.wixstatic.com/media/b535ea_b913561fb1c44b06820c32adb9528bcd~mv2.jpg/v1/fill/w_800,h_600,al_c/b535ea_b913561fb1c44b06820c32adb9528bcd~mv2.jpg" alt="Montemaria Shrine">
+      </div>
+      <div class="img-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsyfz4l6U-BMAcsPIS4UecrkuPuRVX3ZxGkYTc9XBtVMf8hJ1lQ2h98WE&s=10" alt="Batangas Ocean View">
+      </div>
+      <div class="img-box">
+        <img src="https://suroy.ph/wp-content/uploads/2025/02/montemaria_shrine_new-2-300x225.jpg" alt="Montemaria Viewpoint">
+      </div>
+    </div>
+      <br>
+      <h3>How to get there?</h3>
+      <br>
+      <h4>By Public Transportation (Commute): Manila to Batangas Grand Terminal</h4>
+      <li>Step 1: Board a bus bound for Batangas Grand Terminal from terminals. in Manila (such as DLTB or JAM Liner).</li>
+      <li>Travel time takes about 2 to 3 hours, with fares around ₱250 to ₱300.</li>
+        <li>Step 2: Batangas Grand Terminal to SM Batangas </li>
+          <li>Take a jeepney from the terminal to the city center (bayan), then transfer to a jeepney bound for SM City Batangas.</li>
+      <li>Short jeepney fares cost about ₱14 to ₱17 per ride.</li>
+        <li>Step 3: SM Batangas to Montemaria Shrine</li>
+        <li>Go to the jeepney terminal at SM Batangas and ride a jeepney with an Ilijan or Pagkilatan route (often with a green signboard).</li>
+        <li>Step 4: Ask the driver to drop you off directly at Montemaria Shrine in Barangay Pagkilatan. The fare is around ₱60.</li>
+        <br>
+      <h4>By Private Car:</h4>
+        <li>Step 1: Drive south via the South Luzon Expressway (SLEX) connecting to the STAR Tollway (Calabarzon Expressway).</li>
+        <li>Step 2: Take the Batangas (Balagtas) Exit at the end of the tollway. Pay toll at SLEX/STAR Tollway.</li>
+        <li>Step 3: At the roundabout, take the exit onto the National Road/President Jose P. Laurel Highway.</li>
+        <li>Step 4:  Turn left onto Ebora Road, right onto Gamboa Road, and follow signs toward the Batangas–Tabangao–Lobo Road to reach Barangay Pagkilatan and the shrine. Total driving time is roughly 2.5 hours.</li>
+            <div class="map-container">
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3872.2345!2d121.0432823!3d13.6422497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd02f04d53c5b9%3A0x8879c8f10c674e34!2sMontemaria%20International%20Pilgrimage%20and%20Conference%20Center!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph" 
+    width="100%" 
+    height="300" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+
+    </div>
+
+    <div id="bohol" class="dest-subpage">
+      <h3>Bohol</h3>
+      <p>An island province known for natural wonders and pristine coral reefs.</p><br>
+      <h4>Bohol Chocolate Hills:</h4>
+      <p> A geological wonder of over 1,200 conical mounds that turn a rich chocolate brown during the dry season. This National Geological Monument offers a breathtaking landscape formed over millions of years.</p>
+      <br>
+      <p><b>History & Significance:</b> Geologically formed over millions of years through the uplift of coral deposits and rainwater erosion, the Chocolate Hills consist of over 1,200 conical mounds. Local legend tells of a giant who cried tears of heartbreak that turned into these hills.</p>
+      <br>
+      <p><b>Why it’s a top spot:</b> Named a National Geological Monument, the hills turn a rich chocolate brown during the dry season, creating a surreal landscape found nowhere else in the world.</p>
+      <br>
+      <br>
+
+      <h4>Featured Images</h4>
+      <p>Bohol is the "Home to the famous Chocolate Hills and the tarsiers".</p>
+       <div class="gallery">
+      <div class="img-box">
+        <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/847138431.jpg?k=77d17c92199264c12c4309bf9a82eaee330172ccc601b24d314933847f22494b&o=" alt="Bohol Chocolate Hills">
+      </div>
+      <div class="img-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR85x7p1x13N0ZamuYwD-_t2Or0P3XuqQUszVLkRwkIiNyREsy3EX26YmM&s=10" alt="Philippine Tarsier">
+      </div>
+      <div class="img-box">
+        <img src="https://thefroggyadventures.com/wp-content/uploads/2024/09/chocolate-hills-bohol-2.jpg" alt="Loboc River Bohol">
+      </div>
+    </div>
+      <br>
+      <h3>How to get there?</h3>
+      <br>
+      <p>The fastest and most popular way to get to the Chocolate Hills in Carmen, Bohol from Manila is to take a direct flight from Ninoy Aquino International Airport (MNL) to Bohol–Panglao International Airport (TAG), followed by a ground transfer.</p>
+      <br>
+      <li><b>Step 1: Fly from Manila to Bohol (TAG).</b></li>
+        <ol><li>Departure: Ninoy Aquino International Airport (MNL) in Manila</li>
+        <li>Arrival: Bohol–Panglao International Airport (TAG) on Panglao Island, Bohol</li>Airlines: Philippine Airlines, Cebu Pacific, or Philippines AirAsia</li>
+        <li>Flight Duration: About 1 hour and 20 minutes to 1 hour and 35 minutes (nonstop)</li>  
+        <li>Cost: Typically ranges from ₱2,800 to ₱9,800 one-way depending on the airline and booking time.</li></ol>
+      <br>
+      <li><b>Step 2: Travel from the Airport to Tagbilaran City or Carmen</b></li>
+        <p>Distance to Chocolate Hills: The Chocolate Hills are located in the town of Carmen, about 55 kilometers (a 1.5-to-2-hour drive) northeast of Tagbilaran City or roughly 2 hours from Panglao Airport.</p>
+        <ol><li>Option A (Private Car / Van / Taxi): Hire a taxi, rent a car, or book a guided countryside day tour directly from the airport or your resort.</li>
+        <li>Option B (Public Bus / Jeepney):
+        Step 3: Rent a car or take a jeepney.</li></ol>
+        <li>Take an airport bus or tricycle from Panglao Airport to Tagbilaran City.
+          <li>Go to the Dao Integrated Bus Terminal in Tagbilaran City.</li>
+          <li>Ride a westbound/interior-bound public bus or jeepney headed toward Carmen and tell the driver to drop you off at the Chocolate Hills complex.</li><br>
+      <li><b>Step 3: Entering the Chocolate Hills</b></li>
+      <ol><li>Location: Carmen, Bohol</li>
+      <li>Entrance Fee: ₱150 for adult non-Bohol visitors (₱75 for Bohol residents), and ₱75 for children aged 6 to 12 (₱25 for resident children).</li></ol>
+    <br>
+      <div class="map-container">
+       <iframe 
+       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15712.981418728956!2d124.1370834!3d9.8297222!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a9f0290e2417e9%3A0x6b107b3113ddf3c9!2sChocolate%20Hills!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph" 
+       width="100%" 
+       height="300" 
+       style="border:0;" 
+       allowfullscreen="" 
+       loading="lazy" 
+       referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      </div>
+    </div>
+
+    <div id="boracay" class="dest-subpage">
+      <h3>Boracay</h3>
+      <p>A tiny island famous for its white sand beaches and nightlife.</p><br>
+      <h4>World-renowned white sand beaches and energetic nightlife.</h4>
+        <p>Boracay (White Beach): Famous for its 4-kilometer stretch of powdery, cool-to-the-touch white sand, turquoise waters, and vibrant island nightlife. Boracay stands as the nation’s premier tropical beach getaway.</p>
+        <br>
+        <p><b>History & Significance:</b> Originally home to the indigenous Ati people, Boracay remained a quiet farming and fishing island until foreign backpackers discovered its pristine shores in the 1970s.</p>
+        <br>
+        <p><b>Why it’s a top spot:</b> Famous for its 4-kilometer stretch of powdery, ultra-fine white sand that stays cool even under intense heat, paired with turquoise waters and sunset views.</p>
+        <br>
+        <br>
+
+      <h4>Featured Images</h4>
+      <p>Boracay is known as one of the World-renowned white sand beaches and energetic nightlife.</p>
+    
+     <div class="gallery">
+        <div class="img-box">
+        <img src="https://discovery.s14-host.com/9KtH4pk0VeSqmrCi6CMdLHJrG4sF1x-metaUFdBICg5NTAgeCA3ODAgcHgpICgxKS5wbmc=-.png" alt="Boracay White Beach">
+        </div>
+    <div class="img-box">
+      <img src="https://res.klook.com/image/upload/fl_lossy.progressive/q_auto/c_fill,w_750/blogen/2018/10/33cfb02a-%E7%A7%81%E4%BA%BA%E5%AF%BC%E8%A7%88%E6%B5%B7%E4%B8%8A%E8%B7%B3%E5%B2%9B%E6%B8%B8.jpg" alt="Boracay Sunset Sailing">
+    </div>
+    <div class="img-box">
+      <img src="https://www.beyondmydoor.com/wp-content/uploads/2024/02/White-Beach-Boracay-Philippines-1024x768.webp" alt="Boracay Island Coast">
+    </div>
+</div>
+      <br>
+      <h3>How to get there?</h3>
+      <br>
+      <p>To get to Boracay from Manila by plane, fly from Ninoy Aquino International Airport (NAIA) to Caticlan Airport (Godofredo P. Ramos Airport), then take a short land and boat transfer to the island</p>
+      <br>
+      <li><b>Step 1: Fly from Manila to Caticlan Airport.</b></li>
+        <ol><li>Flight Route: Fly nonstop from Manila (MNL) to Caticlan (MPH)—the closest airport to Boracay.</li>
+        <li>Airlines: Operated daily by Philippine Airlines, Cebu Pacific, and Philippines AirAsia.</li>
+        <li>Flight Duration: Approximately 1 hour and 5 minutes.</li>
+        <p>(Alternative option: You can fly into Kalibo International Airport, but it requires an additional 90-minute bus or van ride to the Caticlan jetty port.)</p>
+        </ol>
+      <br>
+      <li><b>Step 2: Travel from Caticlan Airport to Caticlan Jetty Port</b></li>
+      <ol><li>Transport: Take a tricycle, tuk-tuk, or van from the airport to the Caticlan Jetty Port (a 5- to 10-minute trip).</li></ol>
+      <br>
+      <li><b>Step 3: Pay Fees and Take a Boat to Boracay</b></li>
+       <ol><li>Registration & Fees at the Port.<li>Register with your identification and hotel booking.</li>
+       <li>Pay environmental fees (approx. ₱300), terminal fees (approx. ₱150), and boat/ferry fare (approx. ₱50–₱100). Total port and boat fees generally cost around ₱500.</li>
+      <li>Boat Ride: Board the outrigger boat or public ferry to Cagban Jetty Port in Boracay. The crossing takes about 10 to 15 minutes.</li></ol>
+      <br>
+      <li><b>Step 4: Transfer to Your Hotel or resort.</li></b>
+      <ol><li>Island Transport: Upon arrival at the Boracay port, take an electric tricycle (e-trike) or van to your hotel or resort.</li></ol>
+      <br>
+      <br>
+     <div class="map-container">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15629.743286950337!2d121.9213192!3d11.9616035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a53c30172e9d0d%3A0x5a18d361ec3f1aa2!2sWhite%20Beach!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph" 
+        width="100%" 
+        height="300" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      </div>
+    </div>
+
+    <div id="palawan" class="dest-subpage">
+      <h3>Palawan</h3>
+      <p>Consistently ranked among the best island destinations in the world.</p>
+      <br>
+       <h4>Stunning limestone cliffs, crystal clear lagoons, and underwater rivers</h4>
+       <p>Palawan (Puerto Princesa Underground River): A UNESCO World Heritage Site and one of the New7Wonders of Nature. This 8.2 km navigable subterranean river winds through limestone caverns filled with dramatic stalactites and unique cave ecosystems.</p>
+        <br>
+         <p><b>History & Significance:</b> Flowing directly under the St. Paul Mountain Range, this subterranean river system spans 8.2 kilometers. It was declared a UNESCO World Heritage Site in 1999 and voted one of the New7Wonders of Nature in 2012.</p>
+         <p><b>Why it’s a top spot:</b> It features cave formations (stalactites and stalagmites), a unique river-to-sea ecosystem, and rich wildlife inside the cavern.</p>
+        <br>
+        <br>
+
+      <h4>Featured Images</h4>
+      <p>Stunning limestone cliffs, crystal clear lagoons, and underwater rivers.</p>
+      
+      <div class="gallery">
+      <div class="img-box">
+        <img src="https://www.travel-palawan.com/wp-content/uploads/2019/01/Cadlao-Island-bacuit-bay-El-nido.jpg" alt="Palawan Underground River Entrance">
+      </div>
+      <div class="img-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkvwDzBq6j8M9ZnJveQI8u2psa7a0_fXfGWTwGdn8uYmkYGqtmPrX9flxM&s=10" alt="El Nido Palawan Lagoons">
+      </div>
+      <div class="img-box">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Kayangan_Lake%2C_Coron_-_Palawan.jpg/1280px-Kayangan_Lake%2C_Coron_-_Palawan.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail" alt="Coron Palawan Cliffs">
+      </div>
+    </div>
+      <br>
+      <h3>How to get there?</h3>
+      <br>
+      <p>To travel from Manila to the Puerto Princesa Subterranean River National Park (Palawan Underground River), take a 1-hour and 20-minute flight from Manila to Puerto Princesa, then travel by land to Sabang</p>
+      <br>
+      <li><b>Step 1: Fly to Puerto Princesa, El Nido, or Coron.</b></li>
+      <ol><li>Route: Take a direct, non-stop flight from Manila Ninoy Aquino International Airport (MNL) to Puerto Princesa International Airport (PPS).</li>
+      <li>Airlines: Cebu Pacific, Philippine Airlines, and AirAsia Philippines.</li>
+      <li>Flight Duration: About 1 hour and 15 minutes to 1 hour and 35 minutes.</li></ol>
+      <br>
+      <li><b>Step 2: Go from Puerto Princesa Airport to Sabang.</b></li>
+      <ol><li>Land Travel Time: About 2 to 2.5 hours by road from Puerto Princesa City to Sabang (the jump-off town for the Underground River).</li>
+      <li>Take a tricycle, multi-cab, or taxi from the airport to the San Jose Terminal, Irawan Eco-Terminal, or a local transport dispatch area.</li>
+      <li>Ride a shared passenger van, bus, or jeepney heading to Sabang.</li>
+      <p>Alternatively, book a private van transfer or join an organized day tour directly from Puerto Princesa City.</p></ol>
+      <br>
+      <li><b>Step 3: Register and Visit the Underground River.</b></li>
+      <ol><li>Head to the Sabang PPUR Dispatching Area and the Information Center to process your permits and board the outrigger boat to the cave.</li></ol>
+      <br>
+      <p>Tip: Daily visitor permits are limited, so it is best to book your tour slot or permit in advance, especially during the dry season from November to May. Read the DIY steps on the Puerto Princesa Underground River Guide or The Queens Escape</p>
+      <br>
+
+      <div class="map-container">
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15701.378912301047!2d118.8838889!3d10.1925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33b8a1c9df0353c7%3A0xb36d7a1262d4766f!2sPuerto%20Princesa%20Subterranean%20River%20National%20Park!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph" 
+    width="100%" 
+    height="300" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+    </div>
+
+    <div id="siargao" class="dest-subpage">
+      <h3>Siargao</h3>
+      <p>The surfing capital of the Philippines with pristine palm trees and islands.</p>
+      <br>
+      <h4>A tear-drop shaped island known for its world-class surf breaks.</h4>
+      <p>Siargao (Cloud 9 & Island Spots): Globally recognized as the Surfing Capital of the Philippines, Siargao captivates travelers with its world-famous barrels, pristine palm-lined roads, tidal pools, and laid-back island vibe.</p>
+      <br>
+      <p><b>History & Significance:</b> Siargao was a quiet island until American surfer Mike Boyum and photojournalists in the late 1980s and early 1990s documented its powerful barreling waves. They named its famous surf break "Cloud 9" after a local chocolate bar.</p>
+      <br>
+      <p><b>Why it’s a top spot:</b> Recognized globally as the "Surfing Capital of the Philippines," Siargao attracts world-class surfers alongside travelers drawn to its laid-back island lifestyle, tidal pools, and palm tree groves.</p>
+      <br>
+      <br>
+
+      <h4>Featured Images</h4>
+      <p>Siargao captivates travelers with its world-famous barrels, pristine palm-lined roads, tidal pools, and laid-back island vibe.</p>
+
+      <div class="gallery">
+      <div class="img-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCnE7SRO-OWZ_1QANQO32AtKvvVACqlZMQpsJStuvGfFoa8KQITflblZ4&s=10" alt="Siargao Cloud 9 Surf Spot">
+      </div>
+      <div class="img-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMU9_xZB2yMAIOkgHhF6izxJxRgt7uEnenpSThp1Ijgmgkb2OIWugpr3Ug&s=10" alt="Siargao Palm Tree Road">
+      </div>
+      <div class="img-box">
+        <img src="https://media.istockphoto.com/id/2218481535/photo/aerial-view-of-cloud-9-surf-break-in-siargao-philippines.jpg?s=612x612&w=0&k=20&c=LVjdi18Z6IxSMvFMR6lNpTryLXAhBKmPkXpInGkqbNA=" alt="Siargao Island Hopping">
+      </div>
+    </div>
+      <br>
+      <h3>How to get there?</h3>
+      <br>
+      <p>To fly from Manila to Siargao, you will take a flight from Ninoy Aquino International Airport (MNL) to Sayak Airport (IAO) in Del Carmen, Siargao.</p>
+      <br>
+      <li><b>Step 1: By Air (Fastest & Most Common):</b></li>
+      <ol><li>Duration: About 4 to 5 hours total (including a layover), or 3.5 hours for direct/regional connections.</li>
+      <li>Route: Fly from Manila (MNL) or Clark (CRK) to Sayak Airport (IAO) in Del Carmen, Siargao Island, often connecting through Mactan-Cebu International Airport (CEB) via Philippine Airlines, Cebgo (Cebu Pacific), or Sunlight Air.</li>
+      <li>Arrival: From Sayak Airport, it is a 45-to-60-minute van ride to the main tourist and surfing hub of General Luna.</li></ol>
+      <br>
+      <li><b> Step 2: By Sea / Multi-Modal (Cheapest & Longest):</b></li>
+      <ol><li>Duration: Around 22 to 36+ hours depending on connections.</li>
+      <li>Route: A combination of long-distance inter-island ferries, buses, and outrigger boats passing through regional hubs like Tacloban, Cebu City, or Surigao City on the mainland before crossing to Dapa Port in Siargao.</li></ol>
+      <br>
+      <li><b>Step 3: Arriving at Siargao (Sayak Airport - IAO).</b></li>
+      <ol><li>Terminal Fee: You need to pay a small terminal fee in cash upon arrival at Sayak Airport.</li>
+      <li>Getting to General Luna: General Luna is the main tourist and surfing hub on the island. It is about a 45-minute drive from the airport.</li></ol>
+      <br>
+      <p><b>Transport from Airport:</b></p>
+      <ol><li>Shared Van: Available right outside the terminal for around ₱300 to ₱400 per person.</li>
+      <li>Tricycles / Private Rentals: You can arrange a private ride or rent a scooter/motorbike on the island once you settle in</li></ol>
+      <div class="map-container">
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15777.625619176465!2d126.1593333!3d9.8130556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x330402b80041d8e1%3A0xbdf141c2ef36ee7e!2sCloud%209%20Surfing%20Area!5e0!3m2!1sen!2sph!4v1700000000000!5m2!1sen!2sph" 
+    width="100%" 
+    height="300" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 3: GET HELP -->
+  <br>
+  <section id="get-help" class="page-section">
+    <h2>Where to Get Help in the Philippines</h2>
+    <br>
+    <div class="card">
+      <h3>Overview Section</h3>
+      <p>We are here to assist your travel planning. Reach out to us or review our FAQ below.</p>
+    </div>
+       
+    <div class="card">
+      <h3>National Tourist Hotline</h3>
+      <p>Get in direct contact with our local tourism offices and assistance centers.</p>
+    <br>
+
+    <div class="contact-info">
+          <p><strong>Email:</strong> dotncr@tourism.gov.ph / dot.ncr@gmail.com</p>
+          <p><strong>Phone:</strong>  (02) 8459-5200 to 5230 loc. 212</p>
+          <p><strong>Tourist Information Center: </strong>(02) 8459-5200 to 5230 loc. 102</p>
+          <p><strong>Address:</strong> 6783 20th Floor Robinsons Summit Center (RSC), Ayala Ave., Makati Central Business District, Makati City, 1227, Philippines</p>
+    </div>
+
+    </section>
+
+    <!-- Batangas -->
+    <article id="batangas" class="spot-card">
+      <h3>Batangas</h3>
+      <br>
+      <div class="contact-info">
+          <p><strong>Email:</strong> cmo@batangascity.gov.ph</p>
+          <p><strong>Telephone:</strong> +63 (043) 723-1511</p>
+          <p><strong>Mayor's Action Center:</strong>  +63 (043) 786-1920</p>
+          <p><strong>Mobile 24/7 Mayor's Action Center Hotline: </strong>0999-222-6626</p>
+          <p><strong>Address:</strong> Batangas City Hall Complex, P. Burgos Street, Barangay 17, Batangas City, Batangas, Philippines 4200</p>
+      </div>
+    </article>
+
+    <!-- Bohol -->
+    <article id="bohol" class="spot-card">
+      <h3>Bohol</h3>
+      <br>
+      <p><strong>Email:</strong> tourismoffice@bohol.gov.ph</p>
+          <p><strong>Telephone:</strong> 412-1188 / 411-0138</p>
+          <p><strong>Mobile: </strong>+63 920 942 6103</p>
+          <p><strong>Bohol Provincial Tourism Office Address:</strong> Old Capitol Complex, Carlos P. Garcia Avenue, corner J.S. Torralba St, Poblacion III, Tagbilaran City, 6300 Bohol, Philippines</p>
+    </article>
+
+    <!-- Boracay -->
+    <article id="boracay" class="spot-card">
+      <h3>Boracay</h3>
+      <br>
+      <p><strong>Email:</strong> aklantourism@yahoo.com.ph / aklanpgo@yahoo.com</p>
+          <p><strong>Telephone:</strong> (036) 272-7000 local 6500/6501</p>
+          <p><strong>Office Address:</strong>3rd Floor, Aklan Tourism and Trade Investment Promotions Center, Provincial Capitol Building, Kalibo, Aklan, Philippines</p>
+      </article>
+
+    <!-- Palawan -->
+    <article id="palawan" class="spot-card">
+      <h3>Palawan</h3>
+      <br>
+      <p><strong>Email:</strong> info@puertoprincesa.ph</p>
+          <p><strong>Telephone:</strong> (048) 717 8000</p>
+          <p><strong>Mobile No. Tourist Police (Globe):</strong> +63 995 556 4748</p>
+          <p><strong>New Office Address:</strong>New City Hall Building, Puerto Princesa, Philippines</p>
+      </article>
+
+    <!-- Siargao -->
+    <article id="siargao" class="spot-card">
+      <h3>Siargao</h3>
+      <br>
+      <p><strong>Email:</strong>  sdntourism@gmail.com</p>
+          <p><strong>Telephone:</strong> CALL US: (086) 826 – 9017 or</p>
+          <p> 0963 – 890 – 6838 (SMART)</p>
+          <p> 0970 – 603 – 6378 (SMART)</p>
+          <p> 0966 – 547 – 2979 (GLOBE)</p>
+          <p><strong>Municipality of General Luna Address:</strong> National Road / Dapa-General Luna Road, General Luna, Surigao del Norte, Philippines</p>
+    </article>
+  </section>
+
+      <div class="faq">
+        <h3>Frequently Asked Questions</h3>
+        <br>
+        <details>
+          <summary><strong>Question 1:</strong> When is the best time to visit the island?</summary>
+          <p>Answer 1: The dry season from November to April is ideal for island hopping.</p>
+        </details>
+        <details>
+          <summary><strong>Question 2:</strong> Are credit cards widely accepted?</summary>
+          <p>Answer 2: Major hotels accept cards, but bringing cash for local vendors is recommended.</p>
+        </details>
+        <details>
+          <summary><strong>Question 3:</strong> Do I need special travel permits?</summary>
+          <p>Answer 3: Most tourist spots only require local environmental fee passes paid upon arrival.</p>
+        </details>
+        <details>
+          <summary><strong>Question 4:</strong> What valid IDs are required for local domestic travel?</summary>
+          <p>Answer 4: All Filipino citizens must present at least one valid government-issued photo ID (e.g., Passport, Driver's License, UMID, National ID/ePhillD). Foreign nationals must present a valid passport. Minors without school IDs can present a PSA Birth Certificate.</p>
+        </details>
+        <details>
+          <summary><strong>Question 5:</strong> Are there specific tourist registration forms or QR codes required?</summary>
+          <p>Answer 5: Yes, certain destinations require prior online registration. For example, Boracay requires travelers to complete an online tourist registration and generate a QR code prior to purchasing jetty port tickets.</p>
+        </details>
+        <details>
+          <summary><strong>Question 6:</strong> Do I need advance permits for restricted natural parks?</summary>
+          <p>Answer 6: Protected sites like the Puerto Princesa Underground River in Palawan enforce strict visitor limits per day; permits must be processed in advance through licensed tour operators or local tourist offices.</p>
+        </details>
+        <details>
+          <summary><strong>Question 7:</strong> Are environmental fees paid separately or upon arrival?</summary>
+          <p>Answer 7: Environmental fees are mandatory local government taxes. They are either pre-collected in your accredited tour package or paid directly in cash at airport/port collection booths upon arrival.</p>
+        </details>
+        <details>
+          <summary><strong>Question 8:</strong> What currency is used in the Philippines?</summary>
+          <p>Answer 8: Philippine Peso (PHP).</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: CONTACT US -->
+  <section id="contact" class="page">
+    <h2>Contact Us</h2>
+    <br>
+    <div class="card">
+      <h3>Overview Section</h3>
+      <p>Get in direct contact with our local tourism offices and assistance centers.</p>
+    </div>
+
+    <div class="contact-info">
+      <p><strong>Email:</strong> info@philippinesspots.com</p>
+      <p><strong>Phone:</strong> +63 2 8123 4567</p>
+      <p><strong>Address:</strong> Manila, Philippines</p>
+    </div>
+
+    <br>
+    <div class="help-container">
+      <!-- Contact Form -->
+      <div class="form-card">
+        <h3>Send Us Message</h3>
+        <form>
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" placeholder="Enter your full name">
+
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Enter your email">
+
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" placeholder="Enter your phone number">
+
+          <label for="message">Your Message</label>
+          <textarea id="message" rows="10" placeholder="How can we help you?"></textarea>
+
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 Beautiful Spots in the Philippines. All rights reserved.</p>
+</footer>
+
+
+
+  <script>
+    function showSection(sectionId) {
+  // Hide all sections
+  const sections = document.querySelectorAll('.page');
+  sections.forEach(sec => sec.classList.remove('active'));
+
+  // Show selected section
+  const activeSection = document.getElementById(sectionId);
+  if (activeSection) {
+    activeSection.classList.add('active');
+  }
+
+  // Hide subpages when switching main sections
+  const subpages = document.querySelectorAll('.dest-subpage');
+  subpages.forEach(sub => sub.classList.remove('active'));
+}
+
+function showDestination(destId) {
+  // First switch to Section 2 (Explore)
+  showSection('explore');
+
+  // Hide all destination subpages
+  const subpages = document.querySelectorAll('.dest-subpage');
+  subpages.forEach(sub => sub.classList.remove('active'));
+
+  // Display specific destination
+  const activeDest = document.getElementById(destId);
+  if (activeDest) {
+    activeDest.classList.add('active');
+    activeDest.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+  </script>
+</body>
+</html>
